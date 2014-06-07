@@ -3,11 +3,11 @@ module AutoSessionTimeoutHelper
     frequency = options[:frequency] || 60
     code = <<JS
 if (typeof(Ajax) != 'undefined') {
-  timeout = new Ajax.PeriodicalUpdater('', '/active', {frequency:#{frequency}, method:'get', onSuccess: function(e) {
+  timeout = new Ajax.PeriodicalUpdater('', '/active', {frequency:#{frequency}, method:'get', verbose:0, onSuccess: function(e) {
     if (e.responseText == 'false') window.location.href = '/timeout';
   }});
 } else {
-  timeout = $.PeriodicalUpdater('/active', {minTimeout:#{frequency * 1000}, multiplier:0, method:'get', verbose:2}, function(remoteData, success) {
+  timeout = $.PeriodicalUpdater('/active', {minTimeout:#{frequency * 1000}, multiplier:0, method:'get', verbose:0}, function(remoteData, success) {
     if (success == 'success' && remoteData == 'false')
       window.location.href = '/timeout';
   });
